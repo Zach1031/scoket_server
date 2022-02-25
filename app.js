@@ -16,10 +16,10 @@ app.get('/', function(req, res){
 
 app.get('/:room_id', function(req, res){
     var room = (findRoom(req.params.room_id))[0];
-    console.log('here');
+    // console.log('here');
 
     if(room){
-        console.log('here');
+        // console.log('here');
         res.render('index', {connection: room.id});
     }
 
@@ -68,9 +68,9 @@ io.on('connection', function(socket){
         var room = (findRoom(data.id))[0];
         console.log(room);
         if(room){
-            console.log(room);
-            console.log(room.users);
-            console.log('in');
+            // console.log(room);
+            // console.log(room.users);
+            // console.log('in');
             if(room.users.length == 2){
                 socket.emit('fullRoom', {message: "Sorry, the room you are trying to enter is currently full"});
             }
@@ -90,7 +90,7 @@ io.on('connection', function(socket){
     socket.on('createRoom', function(data){
         var room_id = generateRoomId();
         rooms.push({id: room_id, users: [data.user_name], public: false});
-        console.log(rooms);
+        // console.log(rooms);
         socket.join(room_id);
         socket.emit('waitingRoom', {id: room_id});
     }); 
@@ -109,7 +109,7 @@ io.on('connection', function(socket){
         else{
             var room_id = generateRoomId();
             rooms.push({id: room_id, users: [data.user_name], public: true});
-            console.log(rooms);
+            // console.log(rooms);
             socket.join(room_id);
             socket.emit('waitingRoom');
         }

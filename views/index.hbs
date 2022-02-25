@@ -29,6 +29,12 @@
 
         socket.on('waitingRoom', function(data){
             document.body.innerHTML = '';
+            alert('waiting');
+            if(data.id){
+                alert(data.id);
+                document.write(data.id);
+
+            }
             //console.log("waiting");
             //console.log(data.id);
             //if(data.id){
