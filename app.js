@@ -1,6 +1,6 @@
 var app = require('express')();
 var hbs = require('hbs');
-var session = require('express-session');
+//var session = require('express-session');
 var path = require('path');
 
 var http = require('http').Server(app);
