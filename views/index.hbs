@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head><title></title></head>
+    <script src="/socket.io/socket.io.js"></script>
+    {{#if error}}
+    <h1> {{error}} </h1>
+    {{/if}}
+
+    Enter you username: <input type="text" name="name" id="username" value=""/>
+    
+    <br><br>
+    
+    Enter the room id: <input type="text" name="name" id="room-id" value=""/>
+    <button type="button" id="join-room">Join Room</button>
+
+    <br><br>
+
+    <button type="button" id="create-room">Create Room</button>
+
+    <br><br>
+
+    <button type="button" id="join-random">Join Random</button>
+    <script>
+        var socket = io();
+
+        socket.on('unsuccessfulRoomConnection', function(){alert("That's not a room");});
+
+        socket.on('fullRoom', function(){alert('The room is full');})
+
+        socket.on('waitingRoom', function(data){
+            document.body.innerHTML = '';
+            //console.log("waiting");
+            //console.log(data.id);
+            //if(data.id){
+            //    document.write("Currently in waiting room");
+            //}
+            //else{ 
+            //    document.write("Currently in waiting room");
+            //    document.write("User the link bababooey-socket-test.herokuapp.com/", data.id, " to join the game!"); 
+            //}
+            document.write("Currently in waiting room");
+        });
+
+        socket.on('successfulRoomConnection', function(data){
+            for(user in data.users){
+                document.write(user);
+            }
+        });
+
+        socket.on('startMatch', function(data){
+            document.body.innerHTML = '';
+            console.log(data.users);
+            var start_string =
+            document.write(data.users[0], " vs. " , data.users[1]);
+        });
+        
+        var join_button = document.getElementById('join-room');  
+        join_button.addEventListener("click", connectToRoom);
+
+        var create_button = document.getElementById('create-room');
+        create_button.addEventListener('click', createRoom);
+
+        var random_button = document.getElementById('join-random');
+        random_button.addEventListener('click', joinRandomRoom);
+
+        function connectToRoom(){
+            var username = document.getElementById('username').value;
+            var room_id = document.getElementById('room-id').value;
+            if(username && room_id){
+                console.log(room_id);
+                socket.emit('connectToRoom', {id: room_id, user_name: username});
+            }
+        }
+
+        function createRoom(){
+            var username = document.getElementById('username').value;
+            if(username){
+                socket.emit('createRoom', {user_name: username});
+            }
+        }
+
+        function joinRandomRoom(){
+            var username = document.getElementById('username').value;
+            if(username){
+                socket.emit('joinRandom', {user_name: username});
+            }
+        }
+
+        socket.on('');
+        
+    </script>
+
+
+
+    {{#if connection}}
+    <script> 
+        console.log('{{connection}}');
+        socket.emit('connectToRoom', {id: '{{connection}}', user_name: "Random"}); </script>
+    {{/if}}
+    
+</html>

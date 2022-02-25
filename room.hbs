@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+   <head><title>Hello world</title></head>
+   <body>
+    <input type="text" name="name" id="input-name" value=""/>
+    <button type="button" id="new-button">Submit</button>
+   <script src="/socket.io/socket.io.js"></script>
+   <script>
+       document.getElementById("new-button").addEventListener("click", setName);
+       var socket = io();
+
+        function setName(){
+            var user_name = document.getElementById("input-name").value;
+            alert("connecting");
+            socket.emit('connectToRoom', {name: user_name});
+        }
+       
+        socket.on('roomConnection', function(data){
+            document.write(data.description);
+        });
+
+        socket.on('newRoomUser', function(data){
+            document.write(data.description);
+        })
+
+
+    </script>
+    
+    
+
+    </body>
+</html>
