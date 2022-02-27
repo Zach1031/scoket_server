@@ -117,7 +117,7 @@ io.on('connection', function(socket){
 
 
 
-    io.sockets.in('room-1').emit('New room', {description: 'A new person has entered the room!'});
+    //io.sockets.in('room-1').emit('New room', {description: 'A new person has entered the room!'});
 
 
     socket.on('disconnect', function(){clients--;})
